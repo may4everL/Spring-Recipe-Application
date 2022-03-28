@@ -13,6 +13,17 @@ public class Ingredient {
     private String description;
     private BigDecimal amount;
 
+    @OneToOne
+    private UnitOfMeasure unitOfMeasure;
+
+    public UnitOfMeasure getUnitOfMeasure() {
+        return unitOfMeasure;
+    }
+
+    public void setUnitOfMeasure(UnitOfMeasure unitOfMeasure) {
+        this.unitOfMeasure = unitOfMeasure;
+    }
+
     @ManyToOne
     private Recipe recipe;
 
