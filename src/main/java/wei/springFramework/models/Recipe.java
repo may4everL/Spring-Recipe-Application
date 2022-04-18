@@ -2,6 +2,7 @@ package wei.springFramework.models;
 
 import javax.persistence.*;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -17,13 +18,15 @@ public class Recipe {
     private Integer servings;
     private String source;
     private String url;
+
+    @Lob
     private String directions;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<Ingredient> ingredients;
+    private Set<Ingredient> ingredients = new HashSet<>();
 
     @Lob
-    private Byte[] images;
+    private Byte[] image;
 
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
@@ -33,9 +36,9 @@ public class Recipe {
 
     @ManyToMany
     @JoinTable(name = "recipe_category",
-        joinColumns = @JoinColumn(name = "recipe_id"),
-        inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> categories;
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -101,12 +104,12 @@ public class Recipe {
         this.directions = directions;
     }
 
-    public Byte[] getImages() {
-        return images;
+    public Byte[] getImage() {
+        return image;
     }
 
-    public void setImages(Byte[] images) {
-        this.images = images;
+    public void setImage(Byte[] image) {
+        this.image = image;
     }
 
     public Notes getNotes() {
@@ -115,6 +118,13 @@ public class Recipe {
 
     public void setNotes(Notes notes) {
         this.notes = notes;
+        notes.setRecipe(this);
+    }
+
+    public Recipe addIngredient(Ingredient ingredient){
+        ingredient.setRecipe(this);
+        this.ingredients.add(ingredient);
+        return this;
     }
 
     public Set<Ingredient> getIngredients() {
@@ -139,23 +149,5 @@ public class Recipe {
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
-    }
-
-    @Override
-    public String toString() {
-        return "Recipe{" +
-                "description='" + description + '\'' +
-                ", prepTime=" + prepTime +
-                ", cookTime=" + cookTime +
-                ", servings=" + servings +
-                ", source='" + source + '\'' +
-                ", url='" + url + '\'' +
-                ", directions='" + directions + '\'' +
-                ", ingredients=" + ingredients +
-                ", images=" + Arrays.toString(images) +
-                ", difficulty=" + difficulty +
-                ", notes=" + notes +
-                ", categories=" + categories +
-                '}';
     }
 }
