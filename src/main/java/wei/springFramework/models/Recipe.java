@@ -1,6 +1,7 @@
 package wei.springFramework.models;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Set;
 
 @Entity
@@ -138,5 +139,23 @@ public class Recipe {
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "description='" + description + '\'' +
+                ", prepTime=" + prepTime +
+                ", cookTime=" + cookTime +
+                ", servings=" + servings +
+                ", source='" + source + '\'' +
+                ", url='" + url + '\'' +
+                ", directions='" + directions + '\'' +
+                ", ingredients=" + ingredients +
+                ", images=" + Arrays.toString(images) +
+                ", difficulty=" + difficulty +
+                ", notes=" + notes +
+                ", categories=" + categories +
+                '}';
     }
 }
